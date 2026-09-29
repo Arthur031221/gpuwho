@@ -1,0 +1,7 @@
+/dist/
+/gpuwho
+/gpuwho-*
+*.test
+*.out
+.DS_Store
+/probe/rusage_probe
