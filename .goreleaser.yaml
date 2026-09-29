@@ -1,0 +1,69 @@
+version: 2
+
+project_name: gpuwho
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: gpuwho
+    main: ./cmd/gpuwho
+    binary: gpuwho
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+    mod_timestamp: "{{ .CommitTimestamp }}"
+
+archives:
+  - id: default
+    formats: [tar.gz]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE
+      - README.md
+      - CHANGELOG.md
+
+checksum:
+  name_template: checksums.txt
+  algorithm: sha256
+
+changelog:
+  use: git
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+
+release:
+  github:
+    owner: Arthur031221
+    name: gpuwho
+  draft: false
+  prerelease: auto
+
+# Uncomment once the tap repository Arthur031221/homebrew-tap exists and the
+# HOMEBREW_TAP_TOKEN secret is set in the release workflow. Until then use
+# Formula/gpuwho.rb directly with `brew install --build-from-source`.
+#
+# brews:
+#   - name: gpuwho
+#     repository:
+#       owner: Arthur031221
+#       name: homebrew-tap
+#     directory: Formula
+#     homepage: https://github.com/Arthur031221/gpuwho
+#     description: Live per-process GPU and Neural Engine attribution for Apple Silicon
+#     license: MIT
+#     install: |
+#       bin.install "gpuwho"
+#     test: |
+#       assert_match "gpuwho", shell_output("#{bin}/gpuwho --version")
