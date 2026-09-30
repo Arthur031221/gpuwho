@@ -116,6 +116,12 @@ In the TUI: `c` `r` `p` `n` `k` sort by CPU, RSS, PID, name or kind. `q` quits.
 - **Tokens/sec is opt-in and narrow.** Ollama does not expose it at all through its API today. llama-server does, only with `--metrics`, and only if you tell gpuwho the URL.
 - **This is a monitor, not a profiler.** It samples on an interval. It will not catch a GPU spike shorter than your `--interval`.
 
+## Related projects
+
+- [gpuwait](https://github.com/Arthur031221/gpuwait): gpuwho shows which process is on the GPU right now. gpuwait shows how much of a serving window the GPU sits idle.
+- [llm-doctor](https://github.com/Arthur031221/llm-doctor): Diagnoses the local model store that the processes gpuwho lists are usually reading from.
+- [mlxtrace](https://github.com/Arthur031221/mlxtrace): Also samples GPU power on Apple Silicon, but per training step inside one MLX run instead of system wide.
+
 ## Contributing and license
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). MIT licensed, see [LICENSE](LICENSE).
